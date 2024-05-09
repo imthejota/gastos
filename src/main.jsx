@@ -1,10 +1,11 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
+import { createRoot } from "react-dom/client";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+import "./styles/main.css";
+
+const $root = document.getElementById("root");
+const root = createRoot($root);
+root.render(
+  <>
+    <h1>Gastos</h1>
+  </>
+);
