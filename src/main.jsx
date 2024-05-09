@@ -1,11 +1,13 @@
 import { createRoot } from "react-dom/client";
-
 import "./styles/main.css";
+import { RouterProvider } from "react-router-dom";
+import routes from "./Routes";
+
 
 const $root = document.getElementById("root");
 const root = createRoot($root);
 root.render(
   <>
-    <h1>Gastos</h1>
+    <RouterProvider router={routes} />
   </>
 );

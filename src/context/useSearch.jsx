@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
+
 const context = (set) => ({
   keyword: null,
   search: (word) => set({ keyword: word }),
