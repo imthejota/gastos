@@ -18,13 +18,13 @@ const routes = createBrowserRouter([
             {
                 path: "edit/:id",
                 element: <Edit />,
-            },
-            {
-                path: "login",
-                element: <Login />,
-            },
+            }
         ],
     },
+    {
+        path: "/login",
+        element: <Login />,
+    }
 ]);
 
 export default routes;

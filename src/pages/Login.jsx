@@ -1,11 +1,9 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import useUser from "../context/useUser";
 import { useNavigate } from "react-router-dom";
-import { Eye } from "lucide-react";
-import { EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-
+import supabase from "../supabase";
 
 const Login = () => {
     const form = useForm();
@@ -14,17 +12,27 @@ const Login = () => {
 
     const navigate = useNavigate();
 
-    const onSubmit = (data) => {
-        //marvelous authentication
-        login({
-            mail: "jkechian@gmail.com",
-            isAdmin: true,
-        }),
-            navigate("/");
+    const onSubmit = async (dato) => {
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: dato.mail,
+            password: dato.password,
+        });
+
+        if (error) {
+            form.setError("server", {
+                type: "custom",
+                message: "Error en el login",
+            });
+        }
+
+        login({ ...data });
+        console.log(data)
+        navigate("/");
     };
 
-    const [isVisible, setVisible] = useState(false)
-    
+
+
+    const [isVisible, setVisible] = useState(false);
 
     return (
         <>
@@ -45,11 +53,13 @@ const Login = () => {
                             },
                         })}
                     />
-                    {errors && errors.mail && <output>{errors.mail.message}</output>}
-                    </fieldset>
-                    <fieldset>
+                    {errors && errors.mail && (
+                        <output>{errors.mail.message}</output>
+                    )}
+                </fieldset>
+                <fieldset>
                     <input
-                        type={!isVisible? "password": "text"}
+                        type={!isVisible ? "password" : "text"}
                         name="password"
                         id=""
                         {...form.register("password", {
@@ -57,8 +67,9 @@ const Login = () => {
                                 value: true,
                                 message: "Complete with your password",
                             },
-                            minLength: {value: 8,
-                              message: "Minimum 8 characters"
+                            minLength: {
+                                value: 8,
+                                message: "Minimum 8 characters",
                             },
                             pattern: {
                                 value: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
@@ -68,12 +79,17 @@ const Login = () => {
                         })}
                     />
                     <button onClick={() => setVisible(!isVisible)}>
-                    {!isVisible && <Eye />}
-                    {isVisible && <EyeOff />}
+                        {!isVisible && <Eye />}
+                        {isVisible && <EyeOff />}
                     </button>
-                    {errors && errors.password && <output>{errors.password.message}</output>}
-                    </fieldset>
+                    {errors && errors.password && (
+                        <output>{errors.password.message}</output>
+                    )}
+                </fieldset>
                 <button>Log In</button>
+                {errors && errors.server && (
+                    <output>{errors.server.message}</output>
+                )}
             </form>
         </>
     );
