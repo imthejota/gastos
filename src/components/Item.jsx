@@ -1,4 +1,4 @@
-import React from "react";
+
 import Actions from "./Actions";
 
 const Item = ({ nombre, categoria, valor, id }) => {

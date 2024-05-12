@@ -26,11 +26,9 @@ const Login = () => {
         }
 
         login({ ...data });
-        console.log(data)
+        console.log(data);
         navigate("/");
     };
-
-
 
     const [isVisible, setVisible] = useState(false);
 
